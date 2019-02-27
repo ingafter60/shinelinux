@@ -1,0 +1,40 @@
+1. Set Up the Environment
+
+	# Installing Ruby, Rails, and Postgres
+    
+    # Creating the Rails Application
+    	> rails new shinelinux --webpack --skip-turbolinks --skip-spring --skip-test -d postgresql
+		> bundle exec rails webpacker:install
+    	> configure the database
+    	> create the db
+    	> run the app
+
+    # Create home page
+    	> create dashboard controller with index action
+		> add root route
+		> modify index page
+		> test it out 
+		> :)
+	
+	# Setting Up Bootstrap with Yarn and Webpack
+		> add gem foreman
+		# package.json  
+		> add webpack
+		> yarn install
+		> bundle exec rails webpacker:compile
+		# 1_setup/20-install-webpack/shine/Procfile
+		> create Procfile and add this:
+			rails: bundle exec rails server
+			./bin/webpack-dev-server
+		# Create the file app/javascript/packs/application.css	
+		> application.css + add font-family for html
+		> import it to application.js
+		> add js and style tags to app layout
+			<%= javascript_pack_tag 'application' %>
+		    <%= stylesheet_pack_tag 'application' %>
+		> modify the layout
+		> yarn add bootstrap@3
+		> import bootstrap to application.js
+		> foreman start	
+
+    	Next: Authentication with Devise, Styled by Bootstrap

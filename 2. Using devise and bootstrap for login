@@ -1,0 +1,107 @@
+2. Create a Great-Looking Login with Bootstrap and Devise
+
+    # Adding Authentication with Devise
+		> add gem devise
+		> bundle install
+		> rails generate devise:install
+		> rails generate devise user
+    	> rails g devise:views
+		# app/controllers/application_controller.rb
+			> before_action:authenticate_user!
+		# app/views/dashboard/index.html.erb
+			> 	<h1>Welcome to Shine, <%= current_user.email %></h1>
+    	> in home page, add logout link
+    	  <%= link_to "Log Out", destroy_user_session_path, method: :delete %>		
+    	> test it out
+		> sign up: email: email1@email.com pass: email1
+		> test it out: it will show your email
+		# check the entries
+			> rails dbconsole
+			> \X on
+			> select * from users; (it will show you the current user)
+			> \q (to exit)
+			
+    # Styling the Login and Registration Forms
+
+    	# app/views/dashboard/index.html.erb 
+    		<header>
+				<h1>Welcome to Shine, <%= current_user.email %></h1>
+			<section>
+				...
+				<p><%= link_to "Log Out", destroy_user_session_path, method: :delete %></p>
+    	# app/views/layouts/application.html.erb
+			<body class="container">
+			
+		# app/views/devise/sessions/new.html.erb
+			<header>
+				<h1>Log in</h1>
+			</header>
+			<%= form_for(resource, as: resource_name, 
+			                      url: session_path(resource_name)) do |f| %>
+			  <div class="form-group">
+			    <%= f.label :email %>
+			    <%= f.email_field :email, autofocus: true, class: "form-control" %>
+			  </div>
+			  <div class="form-group">
+			    <%= f.label :password %>
+			    <%= f.password_field :password, autocomplete: "off", 
+			                                           class: "form-control" %>
+			  </div>
+			  <% if devise_mapping.rememberable? -%>
+			    <div class="checkbox">
+			      <label>
+			        <%= f.check_box :remember_me %> Remember Me
+			      </label>
+			    </div>
+			  <% end -%>
+			  <%= f.submit "Log in", class: "btn btn-primary btn-lg" %>
+			<% end %>
+			<%= render "devise/shared/links" %>
+
+		# app/views/layouts/application.html.erb
+
+			...
+
+			  <body class="container">
+			    <% if notice.present? %>
+			      <aside class="alert alert-info">
+			        <%= notice %>
+			      </aside>
+			    <% end %>
+			    <% if alert.present? %>
+			      <aside class="alert alert-danger">
+			        <%= alert %>
+			      </aside>
+			    <% end %>
+			    <%= yield %>
+			  </body>
+			</html>
+
+		# app/views/devise/registrations/new.html.erb	
+			
+			<h2>Sign up</h2>
+			<%= form_for(resource, as: resource_name, 
+			             url: registration_path(resource_name)) do |f| %>
+			  <%= devise_error_messages! %>
+			  <div class="form-group">
+			    <%= f.label :email %>
+			    <%= f.email_field :email, autofocus: true, class: "form-control" %>
+			  </div>
+			  <div class="form-group">
+			    <%= f.label :password %>
+			    <% if @minimum_password_length %>
+			      <em>(<%= @minimum_password_length %> characters minimum)</em>
+			    <% end %>
+			    <%= f.password_field :password, 
+			                         autocomplete: "off", 
+			                         class: "form-control" %>
+			  </div>
+			  <div class="form-group">
+			    <%= f.label :password_confirmation %>
+			    <%= f.password_field :password_confirmation, 
+			                         autocomplete: "off", 
+			                         class: "form-control" %>
+			  </div>
+			  <%= f.submit "Sign up", class: "btn btn-primary btn-lg" %>
+			<% end %>
+			<%= render "devise/shared/links" %>
